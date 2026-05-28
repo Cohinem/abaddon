@@ -69,6 +69,10 @@ public:
         get_style_context()->add_class("user-row");
         
         SpeakingIndicator.get_style_context()->add_class("speaking-indicator");
+        SpeakingIndicator.set_size_request(10, 10);
+        SpeakingIndicator.set_valign(Gtk::ALIGN_CENTER);
+        SpeakingIndicator.set_halign(Gtk::ALIGN_CENTER);
+
         if (is_speaking && !is_muted && !is_deafened) {
             SpeakingIndicator.get_style_context()->add_class("speaking");
         } else if (is_muted) {
@@ -157,6 +161,8 @@ private:
     void UpdateVoiceChannelList();
     void UpdateMainPanel();
     void UpdateStatusBar();
+    bool OnLatencyTimer();
+
     void OnChannelRowActivated(Gtk::ListBoxRow* row);
     void ToggleLocalMute();
     void ToggleLocalDeafen();

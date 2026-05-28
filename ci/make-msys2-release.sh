@@ -27,16 +27,22 @@ unzip -q -o Material-Black-Colors-Desktop.zip 'GTK-Material-Black-Colors-Desktop
 mv ./GTK-Material-Black-Colors-Desktop/Material-Black-Cherry ${BUILDDIR}/share/themes/
 cp -r ../ci/tree/. ${BUILDDIR}/
 
-mkdir -p ${BUILDDIR}/share/icons/Adwaita/{16x16,24x24,32x32,48x48,64x64,96x96,scalable}/{actions,devices,status,places}
+mkdir -p ${BUILDDIR}/share/icons/Adwaita/{16x16,24x24,32x32,48x48,64x64,96x96,scalable}/{actions,devices,status,places,categories,apps}
 cp ../ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/index.theme ${BUILDDIR}/share/icons/Adwaita/
+cp -r ../ci/gtk-for-windows/gtk-nsis-pack/share/icons/hicolor ${BUILDDIR}/share/icons/
 for res in 16x16 24x24 32x32 48x48 64x64 96x96; do \
 	cat "../ci/used-icons.txt" | sed 's/\r$//' | \
 	xargs -I % cp ../ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/${res}/%.symbolic.png \
-	${BUILDDIR}/share/icons/Adwaita/${res}/%.symbolic.png || : \
+	${BUILDDIR}/share/icons/Adwaita/${res}/%.symbolic.png || : ; \
+	cat "../ci/used-icons.txt" | sed 's/\r$//' | \
+	xargs -I % cp ../ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/${res}/%.symbolic.png \
+	${BUILDDIR}/share/icons/Adwaita/${res}/%.png || : \
 ; done
 cat "../ci/used-icons.txt" | sed 's/\r$//' | \
 	xargs -I % cp ../ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/scalable/%.svg \
 	${BUILDDIR}/share/icons/Adwaita/scalable/%.svg || :
 cd ${BUILDDIR}/share/icons/Adwaita/
-gtk-update-icon-cache .
+gtk-update-icon-cache . || :
+cd ../hicolor
+gtk-update-icon-cache . || :
 

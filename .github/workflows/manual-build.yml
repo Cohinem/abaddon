@@ -86,16 +86,21 @@ jobs:
           mv ./GTK-Material-Black-Colors-Desktop/Material-Black-Cherry ${artifact_dir}/share/themes/Material-Black-Cherry
           cp -r ci/tree/. ${artifact_dir}/
           
+          # Copy hicolor theme
+          cp -r ci/gtk-for-windows/gtk-nsis-pack/share/icons/hicolor ${artifact_dir}/share/icons/
+          
           cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/index.theme ${artifact_dir}/share/icons/Adwaita/index.theme || :
-          cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/16x16/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/16x16/%.symbolic.png || :
-          cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/24x24/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/24x24/%.symbolic.png || :
-          cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/32x32/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/32x32/%.symbolic.png || :
-          cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/48x48/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/48x48/%.symbolic.png || :
-          cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/64x64/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/64x64/%.symbolic.png || :
-          cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/96x96/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/96x96/%.symbolic.png || :
+          
+          # Copy Adwaita PNG icons to both .symbolic.png and .png
+          for res in 16x16 24x24 32x32 48x48 64x64 96x96; do
+            cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/${res}/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/${res}/%.symbolic.png || :
+            cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/${res}/%.symbolic.png ${artifact_dir}/share/icons/Adwaita/${res}/%.png || :
+          done
           cat "ci/used-icons.txt" | sed 's/\r$//' | xargs -I % cp ci/gtk-for-windows/gtk-nsis-pack/share/icons/Adwaita/scalable/%.svg ${artifact_dir}/share/icons/Adwaita/scalable/%.svg || :
           
           cd ${artifact_dir}/share/icons/Adwaita
+          gtk-update-icon-cache . || :
+          cd ${GITHUB_WORKSPACE}/${artifact_dir}/share/icons/hicolor
           gtk-update-icon-cache . || :
 
       - name: Upload Build Artifact

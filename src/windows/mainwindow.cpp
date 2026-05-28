@@ -3,6 +3,8 @@
 #include "util.hpp"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <glibmm/main.h>
+
 
 MainWindow::MainWindow()
     : m_main_box(Gtk::ORIENTATION_VERTICAL)
@@ -66,8 +68,11 @@ MainWindow::MainWindow()
     m_conn_user_disconnect = discord.signal_voice_user_disconnect().connect(
         [this](Snowflake, Snowflake) { UpdateUI(); });
 
+    Glib::signal_timeout().connect(sigc::mem_fun(*this, &MainWindow::OnLatencyTimer), 1000);
+
     UpdateUI();
 }
+
 
 MainWindow::~MainWindow() {
     m_conn_ready.disconnect();
@@ -450,10 +455,13 @@ void MainWindow::UpdateStatusBar() {
         m_status_connection.set_text("Connected");
         m_status_connection_icon.set_from_icon_name("network-wireless-symbolic", Gtk::ICON_SIZE_MENU);
         m_status_username.set_text(discord.GetUserData().GetUsername());
-        
-        // Fluctuating realistic ping
-        int simulated_ping = 18 + (rand() % 10);
-        m_status_latency.set_text(std::to_string(simulated_ping) + "ms");
+        int real_ping = discord.GetLatencyMs();
+        if (real_ping <= 0) {
+            m_status_latency.set_text("---");
+        } else {
+            m_status_latency.set_text(std::to_string(real_ping) + "ms");
+        }
+
     }
 
     // Update local mute/deafen buttons style based on state
@@ -491,6 +499,12 @@ void MainWindow::UpdateStatusBar() {
         m_btn_deafen.set_image(*img);
     }
 }
+
+bool MainWindow::OnLatencyTimer() {
+    UpdateStatusBar();
+    return true;
+}
+
 
 void MainWindow::OnChannelRowActivated(Gtk::ListBoxRow* row) {
     if (!row) return;
@@ -545,7 +559,10 @@ void MainWindow::OpenSettingsDialog() {
 
 // Stub implementations to preserve compilation compatibility
 void MainWindow::UpdateComponents() { UpdateUI(); }
-void MainWindow::UpdateMembers() { UpdateUI(); }
+void MainWindow::UpdateMembers() {
+    // No-op to avoid freezing the UI during initial member list gateway sync storms
+}
+
 void MainWindow::UpdateChannelListing() { UpdateUI(); }
 void MainWindow::UpdateChatWindowContents() {}
 void MainWindow::UpdateChatActiveChannel(Snowflake id, bool expand_to) {}

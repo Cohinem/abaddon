@@ -219,8 +219,11 @@ public:
 
     [[nodiscard]] std::optional<std::pair<Snowflake, PackedVoiceState>> GetVoiceState(Snowflake user_id) const;
     [[nodiscard]] std::unordered_set<Snowflake> GetUsersInVoiceChannel(Snowflake channel_id);
+    [[nodiscard]] int GetLatencyMs() const noexcept;
 
     void SetReferringChannel(Snowflake id);
+
+
 
     void SetBuildNumber(uint32_t build_number);
     void SetCookie(std::string_view cookie);
@@ -379,6 +382,9 @@ private:
     std::atomic<int> m_heartbeat_msec = 0;
     Waiter m_heartbeat_waiter;
     std::atomic<bool> m_heartbeat_acked = true;
+    std::atomic<int> m_latency_ms = 0;
+    std::atomic<int64_t> m_last_heartbeat_sent_ms = 0;
+
 
     bool m_reconnecting = false; // reconnecting either to resume or reidentify
     bool m_wants_resume = false; // reconnecting specifically to resume

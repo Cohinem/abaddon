@@ -1398,6 +1398,11 @@ std::unordered_set<Snowflake> DiscordClient::GetUsersInVoiceChannel(Snowflake ch
     return m_voice_state_channel_users[channel_id];
 }
 
+int DiscordClient::GetLatencyMs() const noexcept {
+    return m_latency_ms.load();
+}
+
+
 void DiscordClient::SetReferringChannel(Snowflake id) {
     if (!id.IsValid()) {
         m_http.SetPersistentHeader("Referer", "https://discord.com/channels/@me");
@@ -1590,7 +1595,14 @@ void DiscordClient::HandleGatewayMessage(std::string str) {
             } break;
             case GatewayOp::HeartbeatAck: {
                 m_heartbeat_acked = true;
+                int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now().time_since_epoch()).count();
+                int64_t sent_ms = m_last_heartbeat_sent_ms.load();
+                if (sent_ms > 0) {
+                    m_latency_ms = static_cast<int>(now_ms - sent_ms);
+                }
             } break;
+
             case GatewayOp::Reconnect: {
                 HandleGatewayReconnect(m);
             } break;
@@ -2777,7 +2789,10 @@ void DiscordClient::HeartbeatThread() {
         HeartbeatMessage msg;
         msg.Sequence = m_last_sequence;
         nlohmann::json j = msg;
+        m_last_heartbeat_sent_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
         m_websocket.Send(j);
+
 
         if (!m_heartbeat_waiter.wait_for(std::chrono::milliseconds(m_heartbeat_msec)))
             break;
