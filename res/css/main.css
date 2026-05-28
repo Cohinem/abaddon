@@ -1,0 +1,259 @@
+/* Voice Only Client - Custom CSS Theme */
+
+window, .app-window {
+    background-color: #1a1a1a;
+    color: #d1d5db;
+    font-family: "Segoe UI", "SF Pro Display", -apple-system, sans-serif;
+}
+
+#top-bar {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #333333;
+    padding: 4px 12px;
+}
+
+#top-bar-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+#top-bar-divider {
+    font-size: 11px;
+    color: #4b5563;
+}
+
+#top-bar-server {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+#top-bar-channel {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* Sidebar Styling */
+#sidebar {
+    background-color: #252525;
+    border-right: 1px solid #333333;
+}
+
+#sidebar-header {
+    padding: 8px 12px;
+    border-bottom: 1px solid #333333;
+}
+
+#sidebar-header-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #e5e7eb;
+}
+
+/* Channel and User List Box */
+#channel-list-box {
+    background-color: transparent;
+    border: none;
+}
+
+#channel-list-box row {
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    box-shadow: none;
+}
+
+#channel-list-box row:hover {
+    background-color: transparent;
+}
+
+.channel-row {
+    padding: 4px 8px;
+    margin: 1px 4px;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.channel-row:hover {
+    background-color: #333333;
+}
+
+.channel-row.active {
+    background-color: #3a4a5a;
+}
+
+.channel-name {
+    font-size: 12px;
+    color: #d1d5db;
+}
+
+.channel-row.active .channel-name {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.user-row {
+    padding: 2px 8px 2px 28px;
+    margin: 1px 4px;
+}
+
+.user-name {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.user-name.muted {
+    color: #6b7280;
+}
+
+/* Speaking circle indicator */
+.speaking-indicator {
+    min-width: 8px;
+    min-height: 8px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background-color: #6b7280;
+}
+
+.speaking-indicator.speaking {
+    background-color: #22c55e;
+    box-shadow: 0 0 4px #22c55e;
+}
+
+.speaking-indicator.muted {
+    background-color: #ef4444;
+}
+
+.speaking-indicator.deafened {
+    background-color: #f59e0b;
+}
+
+/* Main Panel Styling */
+#main-panel {
+    background-color: #2b2b2b;
+}
+
+#main-panel-placeholder {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+#main-panel-header {
+    padding: 8px 16px;
+    border-bottom: 1px solid #333333;
+}
+
+#main-panel-channel-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e5e7eb;
+}
+
+#main-panel-meta {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+#main-panel-users-box {
+    background-color: transparent;
+    border: none;
+}
+
+#main-panel-users-box row {
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    box-shadow: none;
+}
+
+.user-card {
+    padding: 6px 12px;
+    margin: 2px 8px;
+    border-radius: 4px;
+    background-color: transparent;
+    transition: background-color 0.15s;
+}
+
+.user-card:hover {
+    background-color: #2e2e2e;
+}
+
+.user-card.speaking {
+    background-color: rgba(34, 197, 94, 0.08);
+}
+
+.user-card.self {
+    border: 1px solid #3a4a5a;
+}
+
+.user-card-name {
+    font-size: 12px;
+    color: #e5e7eb;
+}
+
+.user-card-name.muted {
+    color: #6b7280;
+}
+
+/* Status Bar Styling */
+#status-bar {
+    background-color: #1e1e1e;
+    border-top: 1px solid #333333;
+    padding: 4px 8px;
+}
+
+#status-bar button {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 4px 8px;
+    margin: 0 2px;
+    border-radius: 4px;
+    color: #9ca3af;
+}
+
+#status-bar button:hover {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+#status-bar button.active-muted {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+#status-bar button.active-deafened {
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+}
+
+#status-bar-divider {
+    background-color: #333333;
+    width: 1px;
+    margin: 0 6px;
+}
+
+#status-bar-connection {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+#status-bar-latency {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+#status-bar-user-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #e5e7eb;
+}
+
+#status-bar-avatar {
+    background-color: #3a4a5a;
+    border-radius: 4px;
+    min-width: 24px;
+    min-height: 24px;
+}
