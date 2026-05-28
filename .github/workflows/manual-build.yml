@@ -74,9 +74,9 @@ jobs:
           # Setup icon caches and themes
           mkdir -p ${artifact_dir}/share/icons/Adwaita
           cd ${artifact_dir}/share/icons/Adwaita
-          mkdir -p 16x16/actions 24x24/actions 32x32/actions 48x48/actions 64x64/actions 96x96/actions scalable/actions
-          mkdir -p 16x16/devices 24x24/devices 32x32/devices 48x48/devices 64x64/devices 96x96/devices scalable/devices
-          mkdir -p 16x16/status 24x24/status 32x32/status 48x48/status 64x64/status 96x96/status scalable/status
+          for size in 16x16 24x24 32x32 48x48 64x64 96x96 scalable; do
+            mkdir -p ${size}/actions ${size}/devices ${size}/status ${size}/places ${size}/categories ${size}/apps
+          done
           cd ${GITHUB_WORKSPACE}
           
           # Fetch theme

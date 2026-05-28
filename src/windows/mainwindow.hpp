@@ -164,6 +164,7 @@ private:
 
     // Signal connections from Discord client
     sigc::connection m_conn_ready;
+    sigc::connection m_conn_disconnected;
     sigc::connection m_conn_voice_state;
     sigc::connection m_conn_voice_speaking;
     sigc::connection m_conn_voice_connect;
@@ -173,6 +174,7 @@ private:
 
     // Track speaking users
     std::unordered_set<Snowflake> m_speaking_users;
+    bool m_is_ready;
 
     // UI Widgets
     Gtk::Box m_main_box;

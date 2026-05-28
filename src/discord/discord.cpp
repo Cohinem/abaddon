@@ -3079,6 +3079,10 @@ void DiscordClient::SetVoiceState(Snowflake user_id, const VoiceState &state) {
         return;
     }
 
+    if (const auto it = m_voice_states.find(user_id); it != m_voice_states.end()) {
+        m_voice_state_channel_users[it->second.first].erase(user_id);
+    }
+
     auto flags = VoiceStateFlags::Clear;
     if (state.IsSelfMuted) flags |= VoiceStateFlags::SelfMute;
     if (state.IsSelfDeafened) flags |= VoiceStateFlags::SelfDeaf;

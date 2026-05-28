@@ -68,19 +68,19 @@ window, .app-window {
     background-color: transparent;
 }
 
-.channel-row {
-    padding: 4px 8px;
-    margin: 1px 4px;
-    border-radius: 4px;
+#channel-list-box row.channel-row {
+    padding: 6px 10px;
+    margin: 2px 8px;
+    border-radius: 6px;
     transition: background-color 0.15s;
 }
 
-.channel-row:hover {
-    background-color: #333333;
+#channel-list-box row.channel-row:hover {
+    background-color: #2b2b2b;
 }
 
-.channel-row.active {
-    background-color: #3a4a5a;
+#channel-list-box row.channel-row.active {
+    background-color: #383838;
 }
 
 .channel-name {
@@ -88,14 +88,20 @@ window, .app-window {
     color: #d1d5db;
 }
 
-.channel-row.active .channel-name {
+#channel-list-box row.channel-row.active .channel-name {
     color: #ffffff;
     font-weight: 500;
 }
 
-.user-row {
-    padding: 2px 8px 2px 28px;
-    margin: 1px 4px;
+#channel-list-box row.user-row {
+    padding: 5px 10px 5px 34px;
+    margin: 1px 8px;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+#channel-list-box row.user-row:hover {
+    background-color: #222222;
 }
 
 .user-name {
@@ -109,10 +115,10 @@ window, .app-window {
 
 /* Speaking circle indicator */
 .speaking-indicator {
-    min-width: 8px;
-    min-height: 8px;
-    margin-right: 6px;
-    border-radius: 50%;
+    min-width: 10px;
+    min-height: 10px;
+    margin-right: 8px;
+    border-radius: 5px;
     background-color: #6b7280;
 }
 
