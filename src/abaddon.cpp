@@ -129,14 +129,7 @@ static bool HandleButtonEvents(GdkEvent *event, MainWindow *main_window) {
     if (static_cast<void *>(window) != static_cast<void *>(main_window->gobj())) return false; // is this the right way???
 
 #ifdef WITH_LIBHANDY
-    switch (event->button.button) {
-        case BUTTON_BACK:
-            main_window->GoBack();
-            break;
-        case BUTTON_FORWARD:
-            main_window->GoForward();
-            break;
-    }
+    // No-op for voice-only client
 #endif
 
     return false;
@@ -162,32 +155,7 @@ static bool HandleKeyEvents(GdkEvent *event, MainWindow *main_window) {
     }
 
 #ifdef WITH_LIBHANDY
-    if (ctrl) {
-        switch (event->key.keyval) {
-            case GDK_KEY_Tab:
-            case GDK_KEY_KP_Tab:
-            case GDK_KEY_ISO_Left_Tab:
-                if (shft)
-                    main_window->GoToPreviousTab();
-                else
-                    main_window->GoToNextTab();
-                return true;
-            case GDK_KEY_1:
-            case GDK_KEY_2:
-            case GDK_KEY_3:
-            case GDK_KEY_4:
-            case GDK_KEY_5:
-            case GDK_KEY_6:
-            case GDK_KEY_7:
-            case GDK_KEY_8:
-            case GDK_KEY_9:
-                main_window->GoToTab(event->key.keyval - GDK_KEY_1);
-                return true;
-            case GDK_KEY_0:
-                main_window->GoToTab(9);
-                return true;
-        }
-    }
+    // No-op for voice-only client
 #endif
 
     return false;
@@ -462,12 +430,7 @@ void Abaddon::DiscordOnDisconnect(bool is_reconnecting, GatewayCloseCode close_c
 }
 
 void Abaddon::DiscordOnThreadUpdate(const ThreadUpdateData &data) {
-    if (data.Thread.ID == m_main_window->GetChatActiveChannel()) {
-        if (data.Thread.ThreadMetadata->IsArchived)
-            m_main_window->GetChatWindow()->SetTopic("This thread is archived. Sending a message will unarchive it");
-        else
-            m_main_window->GetChatWindow()->SetTopic("");
-    }
+    // No-op for voice-only client
 }
 
 #ifdef WITH_VOICE
@@ -785,56 +748,7 @@ void Abaddon::ActionLoginQR() {
 }
 
 void Abaddon::ActionChannelOpened(Snowflake id, bool expand_to) {
-    if (!id.IsValid()) {
-        m_discord.SetReferringChannel(Snowflake::Invalid);
-        return;
-    }
-    if (id == m_main_window->GetChatActiveChannel()) return;
-
-    m_notifications.WithdrawChannel(id);
-
-    m_main_window->GetChatWindow()->SetTopic("");
-
-    const auto channel = m_discord.GetChannel(id);
-    if (!channel.has_value()) {
-        m_discord.SetReferringChannel(Snowflake::Invalid);
-        m_main_window->UpdateChatActiveChannel(Snowflake::Invalid, false);
-        m_main_window->UpdateChatWindowContents();
-        return;
-    }
-
-    const bool can_access = channel->IsDM() || m_discord.HasChannelPermission(m_discord.GetUserData().ID, id, Permission::VIEW_CHANNEL);
-
-    m_main_window->set_title(std::string(APP_TITLE) + " - " + channel->GetDisplayName());
-    m_main_window->UpdateChatActiveChannel(id, expand_to);
-    if (m_channels_requested.find(id) == m_channels_requested.end()) {
-        // dont fire requests we know will fail
-        if (can_access) {
-            m_discord.FetchMessagesInChannel(id, [channel, this, id](const std::vector<Message> &msgs) {
-                CheckMessagesForMembers(*channel, msgs);
-                m_main_window->UpdateChatWindowContents();
-                m_channels_requested.insert(id);
-            });
-        }
-    } else {
-        m_main_window->UpdateChatWindowContents();
-    }
-
-    if (can_access) {
-        if (channel->IsThread()) {
-            m_discord.SendThreadLazyLoad(id);
-            if (channel->ThreadMetadata->IsArchived)
-                m_main_window->GetChatWindow()->SetTopic("This thread is archived. Sending a message will unarchive it");
-        } else if (channel->Type != ChannelType::DM && channel->Type != ChannelType::GROUP_DM && channel->GuildID.has_value()) {
-            m_discord.SendLazyLoad(id);
-
-            if (m_discord.IsVerificationRequired(*channel->GuildID))
-                ShowGuildVerificationGateDialog(*channel->GuildID);
-        }
-    }
-
-    m_main_window->UpdateMenus();
-    m_discord.SetReferringChannel(id);
+    // No-op for voice-only client
 }
 
 void Abaddon::ActionChatLoadHistory(Snowflake id) {
