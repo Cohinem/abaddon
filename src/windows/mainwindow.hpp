@@ -88,7 +88,7 @@ public:
         Box.pack_start(Label, Gtk::PACK_EXPAND_WIDGET);
         
         if (is_muted) {
-            MuteIcon.set_from_icon_name("audio-input-microphone-muted-symbolic", Gtk::ICON_SIZE_MENU);
+            MuteIcon.set_from_icon_name("microphone-disabled-symbolic", Gtk::ICON_SIZE_MENU);
             Box.pack_end(MuteIcon, Gtk::PACK_SHRINK);
         }
         if (is_deafened) {

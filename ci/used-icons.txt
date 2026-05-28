@@ -5,3 +5,8 @@ status/audio-volume-muted-symbolic
 devices/camera-web-symbolic
 status/user-available-symbolic
 places/folder-symbolic
+status/audio-volume-high-symbolic
+devices/audio-input-microphone-symbolic
+devices/network-wireless-symbolic
+status/network-wireless-offline-symbolic
+categories/preferences-system-symbolic

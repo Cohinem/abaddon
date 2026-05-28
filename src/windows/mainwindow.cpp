@@ -399,7 +399,7 @@ void MainWindow::UpdateMainPanel() {
         // Add mute/deafen status icons to the card
         if (is_muted) {
             Gtk::Image *mic_off = Gtk::manage(new Gtk::Image());
-            mic_off->set_from_icon_name("audio-input-microphone-muted-symbolic", Gtk::ICON_SIZE_MENU);
+            mic_off->set_from_icon_name("microphone-disabled-symbolic", Gtk::ICON_SIZE_MENU);
             card_box->pack_end(*mic_off, Gtk::PACK_SHRINK);
         }
         if (is_deafened) {
@@ -447,7 +447,7 @@ void MainWindow::UpdateStatusBar() {
     if (is_muted) {
         m_btn_mute.get_style_context()->add_class("active-muted");
         Gtk::Image *img = Gtk::manage(new Gtk::Image());
-        img->set_from_icon_name("audio-input-microphone-muted-symbolic", Gtk::ICON_SIZE_BUTTON);
+        img->set_from_icon_name("microphone-disabled-symbolic", Gtk::ICON_SIZE_BUTTON);
         m_btn_mute.set_image(*img);
     } else {
         m_btn_mute.get_style_context()->remove_class("active-muted");

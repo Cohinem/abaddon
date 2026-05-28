@@ -544,7 +544,7 @@ void Abaddon::RunFirstTimeDiscordStartup() {
         }
 
         // autoconnect
-        if (cookie.has_value() && build_number.has_value() && GetSettings().Autoconnect && !GetDiscordToken().empty()) {
+        if (cookie.has_value() && build_number.has_value() && !GetDiscordToken().empty()) {
             ActionConnect();
         }
     });

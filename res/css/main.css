@@ -231,7 +231,7 @@ window, .app-window {
 
 #status-bar-divider {
     background-color: #333333;
-    width: 1px;
+    min-width: 1px;
     margin: 0 6px;
 }
 
