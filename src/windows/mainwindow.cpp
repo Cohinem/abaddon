@@ -286,8 +286,8 @@ void MainWindow::UpdateVoiceChannelList() {
             auto user = discord.GetUser(u_id);
             auto member = discord.GetMember(u_id, guild_id);
             std::string disp_name = user.has_value() ? user->GetUsername() : std::to_string(u_id);
-            if (member.has_value() && !member->Nick.empty()) {
-                disp_name = member->Nick;
+            if (member.has_value() && !member->Nickname.empty()) {
+                disp_name = member->Nickname;
             }
 
             auto vstate = discord.GetVoiceState(u_id);
@@ -346,8 +346,8 @@ void MainWindow::UpdateMainPanel() {
         auto user = discord.GetUser(u_id);
         auto member = discord.GetMember(u_id, guild_id);
         std::string disp_name = user.has_value() ? user->GetUsername() : std::to_string(u_id);
-        if (member.has_value() && !member->Nick.empty()) {
-            disp_name = member->Nick;
+        if (member.has_value() && !member->Nickname.empty()) {
+            disp_name = member->Nickname;
         }
 
         if (u_id == self_id) {
